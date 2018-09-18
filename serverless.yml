@@ -1,7 +1,7 @@
 service: hara-scan # NOTE: update this with your service name
 
 custom:
-  webpackIncludeModules:
+  webpack:
     webpackConfig: 'webpack.config.js'
     includeModules: true
   # serverless-offline:
@@ -13,7 +13,7 @@ plugins:
   - serverless-offline-scheduler
   - serverless-webpack
 
-frameworkVersion: "<=1.28.0"
+frameworkVersion: "<=1.32.0"
 
 provider:
   name: aws
@@ -89,7 +89,7 @@ functions:
 
   get_alias_functions:
     handler: handler._getWeb3Functions
-    timeout: 60
+    timeout: 10
     events:
     - http:
         path: get_alias_functions

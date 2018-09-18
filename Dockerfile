@@ -8,7 +8,5 @@ RUN npm install
 
 ADD . /app
 
-ADD . .
-
-RUN npm install -g serverless@1.28.0
+RUN npm link serverless
 RUN npm link nodemon

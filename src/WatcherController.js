@@ -30,7 +30,7 @@ export const _Transactions = async (event, context, callback, type) => {
   let data = await new HaraBlock()._getData(type, page, limit);
 
   callback(null, {
-    status: data ? 200 : 401,
+    statusCode: data ? 200 : 401,
     body: JSON.stringify({
       message: data ? "success" : "failed",
       data: data && "Items" in data ? data["Items"] : {}
@@ -71,7 +71,7 @@ export const _TransactionsByAddress = async (event, context, callback, type = "t
   let data = await new HaraBlock()._queryDataByAddress(type, address, page, limit);
 
   callback(null, {
-    status: data ? 200 : 401,
+    statusCode: data ? 200 : 401,
     body: JSON.stringify({
       message: data ? "success" : "failed",
       data: data && "Items" in data ? data["Items"] : {}
@@ -111,7 +111,7 @@ export const _VerifiedContracts = async (event, context, callback, type = "trans
   let data = await new HaraBlock()._getContracts(type, page, limit);
 
   callback(null, {
-    status: data ? 200 : 401,
+    statusCode: data ? 200 : 401,
     body: JSON.stringify({
       message: data ? "success" : "failed",
       data: data && "Items" in data ? data["Items"] : {}
@@ -134,7 +134,7 @@ export const _DetailTransactions = async (event, context, callback) => {
   let data = await new HaraBlock()._getTxData(txHash);
 
   callback(null, {
-    status: data ? 200 : 401,
+    statusCode: data ? 200 : 401,
     body: JSON.stringify({
       message: data ? "success" : "failed",
       data: data ? data : {}
@@ -159,15 +159,12 @@ export const _Web3Functions = async (event, context, callback) => {
     _params = event.queryStringParameters.params;
   } 
 
-  console.log("_function", _function);
-  console.log("_params", _params);
-
   let data = await new PrivateNet()._web3Alias(_function, _params);
 
   console.log("data", data);
 
   context.succeed({
-    status: data ? 200 : 401,
+    statusCode: data ? 200 : 401,
     body: JSON.stringify({
       message: data ? "success" : "failed",
       data: data ? data : {}
@@ -181,13 +178,15 @@ export const _TotalTransaction = async (event, context, callback) => {
     
     console.log("data", data);
 
+    const response = {
+      message: data ? "success" : "failed",
+      data: data ? data : {}
+    }
+
     callback(null, {
-      status: data ? 200 : 401,
-      body: JSON.stringify({
-        message: data ? "success" : "failed",
-        data: data ? data : {}
-      })
-    });
+      statusCode: data ? 200 : 401,
+      body: JSON.stringify(response),
+    }); 
   } catch (err) {
     console.error(err.message);
   }
